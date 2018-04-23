@@ -121,7 +121,7 @@ public class Board
      * @param _index     index of the field on the board (row: index*BOARD_WIDTH, col: index%BOARD_WIDTH)
      * @return          true if the has not already been played
      */
-    boolean move(int _index)
+    public boolean move(int _index)
     {
         return move(_index / BOARD_WIDTH, _index % BOARD_WIDTH);
     }
@@ -350,6 +350,15 @@ public class Board
     {
         if (!gameOver) throw new IllegalStateException("Stratego game is not over yet.");
         return winner;
+    }
+
+    /**
+     * Get the indexes of all fields on the board that are empty.
+     * @return      the indexes of empty fields (Blank)
+     */
+    public HashSet<Integer> getAvailableMoves()
+    {
+        return availableMoves;
     }
 
     //----------
