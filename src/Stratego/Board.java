@@ -319,7 +319,7 @@ public class Board
      * Checks if the game is over (if there is a winner or there is a draw)
      * @return      true if game is over
      */
-    boolean isGameOver()
+    public boolean isGameOver()
     {
         return gameOver;
     }
@@ -337,7 +337,7 @@ public class Board
      * Check to see who's turn it is.
      * @return          the player who's turn it is
      */
-    State getTurn()
+    public State getTurn()
     {
         return playersTurn;
     }
@@ -346,7 +346,7 @@ public class Board
      * Check to see who won.
      * @return          the player who won (or Blank if the game is a draw)
      */
-    State getWinner ()
+    public State getWinner ()
     {
         if (!gameOver) throw new IllegalStateException("Stratego game is not over yet.");
         return winner;
@@ -359,6 +359,26 @@ public class Board
     public HashSet<Integer> getAvailableMoves()
     {
         return availableMoves;
+    }
+
+    /**
+     * Get a deep copy of the Stratego board.
+     * @return      an identical copy of the board
+     */
+    public Board getDeepCopy()
+    {
+        Board board             = new Board();
+
+        for (int i = 0; i < board.board.length; i++)
+            board.board[i] = this.board[i].clone();
+
+        board.playersTurn       = this.playersTurn;
+        board.winner            = this.winner;
+        board.availableMoves   = new HashSet<>();
+        board.availableMoves .addAll(this.availableMoves);
+        board.moveCount         = this.moveCount;
+        board.gameOver          = this.gameOver;
+        return board;
     }
 
     //----------
