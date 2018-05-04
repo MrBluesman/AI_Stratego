@@ -128,9 +128,9 @@ public class Board
 
     /**
      * Counts a point of finished game and select the winner
-     * @return      winner points
+     * @return      difference between players points
      */
-    private int countPoints()
+    public int countPoints()
     {
         int bluePoints = 0;
         int redPoints = 0;
@@ -162,7 +162,8 @@ public class Board
         if(bluePoints == redPoints) winner = State.Blank;
         else winner = bluePoints > redPoints ? State.Blue : State.Red;
         //return winners points
-        return bluePoints > redPoints ? bluePoints : redPoints;
+//        return bluePoints > redPoints ? bluePoints : redPoints;
+        return bluePoints - redPoints;
     }
 
     /**

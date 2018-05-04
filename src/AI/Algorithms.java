@@ -27,7 +27,7 @@ public class Algorithms
      */
     public static void miniMax(Board _board)
     {
-        MiniMax.run(_board.getTurn(), _board, Double.POSITIVE_INFINITY);
+        MiniMax.run(_board.getTurn(), _board);
     }
 
 }

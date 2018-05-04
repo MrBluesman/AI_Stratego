@@ -18,14 +18,11 @@ public class MiniMax
      * Execute the MiniMax algorithm.
      * @param _player       the player that the Ai will identify as
      * @param _board        the Stratego board to play on
-     * @param _maxPly       the maximum depth
      */
-    static void run(Board.State _player, Board _board, double _maxPly)
+    static void run(Board.State _player, Board _board)
     {
-        if(_maxPly < 1)
-            throw new IllegalArgumentException("Maximum depth must be greater than 0.");
 
-        MiniMax.maxPly = _maxPly;
+        MiniMax.maxPly = Double.POSITIVE_INFINITY;
         miniMax(_player, _board, 0);
     }
 
@@ -124,11 +121,13 @@ public class MiniMax
             throw new IllegalArgumentException("Player must be Blue or Red");
 
         //set opponent
-        Board.State opponent = (_player == Board.State.Blue) ? Board.State.Blue : Board.State.Red;
+//        Board.State opponent = (_player == Board.State.Blue) ? Board.State.Blue : Board.State.Red;
+
+        int gameScore = _board.countPoints();
 
         //set the points
-        if(_board.isGameOver() && _board.getWinner() == _player) return 10;
-        else if(_board.isGameOver() && _board.getWinner() == opponent) return -10;
+        if(_board.isGameOver() && _player == Board.State.Blue) return gameScore;
+        else if(_board.isGameOver() && _player == Board.State.Red) return gameScore * -1;
         else return 0;
     }
 }
