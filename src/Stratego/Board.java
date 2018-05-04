@@ -144,17 +144,23 @@ public class Board
         int[] colPoints = countColumns();
         bluePoints += colPoints[0];
         redPoints += colPoints[1];
-        //check diagonalFromTopLeft
-        int[] diag1Points = countDiagonalFromTopLeft();
-        bluePoints += diag1Points[0];
-        redPoints += diag1Points[1];
-        //check diagonalFromTopRight
-        int[] diag2Points = countDiagonalFromTopRight();
-        bluePoints += diag2Points[0];
-        redPoints += diag2Points[1];
+
+//        //check countDiagonalsFromLeft
+        int[] diagFromLeftPoints = countDiagonalsFromLeft();
+        bluePoints += diagFromLeftPoints[0];
+        redPoints += diagFromLeftPoints[1];
+//
+//        //check diagonalFromTopRight
+        int[] diagFromRightPoints = countDiagonalsFromRight();
+        bluePoints += diagFromRightPoints[0];
+        redPoints += diagFromRightPoints[1];
+
+        System.out.println("BluePoints = " + bluePoints);
+        System.out.println("RedPoints = " + redPoints);
 
         //set the winner
-        winner = bluePoints > redPoints ? State.Blue : State.Red;
+        if(bluePoints == redPoints) winner = State.Blank;
+        else winner = bluePoints > redPoints ? State.Blue : State.Red;
         //return winners points
         return bluePoints > redPoints ? bluePoints : redPoints;
     }
@@ -171,20 +177,18 @@ public class Board
 
         for(int row = 0; row < BOARD_WIDTH; row++)
         {
-            State actualColor = State.Blank;
+            //set a actual color as the first color in this row
+            State actualColor = board[row][0];
             int points = 0;
+
             for(int col = 0; col < BOARD_WIDTH; col++)
             {
+                //count points if the color doesn't change
                 if(board[row][col] == actualColor) points++;
                 else
                 {
-                    if(points > 1)
-                    {
-                        if(actualColor == State.Blue) bluePoints += points;
-                        else redPoints += points;
-                    }
-                    points = 1;
-                    actualColor = board[row][col];
+                    points = 0;
+                    break;
                 }
             }
             if(points > 1)
@@ -211,20 +215,18 @@ public class Board
 
         for(int col = 0; col < BOARD_WIDTH; col++)
         {
-            State actualColor = State.Blank;
+            //set a actual color as the first color in this column
+            State actualColor = board[0][col];
             int points = 0;
+
             for(int row = 0; row < BOARD_WIDTH; row++)
             {
+                //count points if the color doesn't change
                 if(board[row][col] == actualColor) points++;
                 else
                 {
-                    if(points > 1)
-                    {
-                        if(actualColor == State.Blue) bluePoints += points;
-                        else redPoints += points;
-                    }
-                    points = 1;
-                    actualColor = board[row][col];
+                    points = 0;
+                    break;
                 }
             }
             if(points > 1)
@@ -240,35 +242,73 @@ public class Board
     }
 
     /**
-     * Counts a points of finished game in diagonal from top to right
+     * Counts a points of finished game in diagonals from left
      * @return      Points of both players as array [Blue, Red]
      */
-    private int[] countDiagonalFromTopRight()
+    private int[] countDiagonalsFromLeft()
     {
         int[] returnPointsArray = new int[2];
         int bluePoints = 0;
         int redPoints = 0;
 
-        State actualColor = State.Blank;
-        int points = 0;
-        for(int pos = 0; pos < BOARD_WIDTH; pos++)
+        //count from left
+        for(int row = 0; row < BOARD_WIDTH; row++)
         {
-            if(board[pos][pos] == actualColor) points++;
-            else
+            //set a actual color as the first color in this row
+            State actualColor = board[row][0];
+            int points = 0;
+
+            int backingUpRow = row;
+            int col = 0;
+
+            while(backingUpRow >= 0)
             {
-                if(points > 1)
+                //count points if the color doesn't change
+                if(board[backingUpRow][col] == actualColor) points++;
+                else
                 {
-                    if(actualColor == State.Blue) bluePoints += points;
-                    else redPoints += points;
+                    points = 0;
+                    break;
                 }
-                points = 1;
-                actualColor = board[pos][pos];
+                //back up the row and move forward the col
+                backingUpRow--;
+                col++;
+            }
+            if(points > 1)
+            {
+                if(actualColor == State.Blue) bluePoints += points;
+                else redPoints += points;
             }
         }
-        if(points > 1)
+
+        //count from bottom
+        for(int col = 1; col < BOARD_WIDTH; col++)
         {
-            if(actualColor == State.Blue) bluePoints += points;
-            else redPoints += points;
+            //set a actual color as the first color in this column
+            State actualColor = board[BOARD_WIDTH - 1][col];
+            int points = 0;
+
+            int growingUpCol = col;
+            int row = BOARD_WIDTH - 1;
+
+            while(growingUpCol < BOARD_WIDTH)
+            {
+                //count points if the color doesn't change
+                if(board[row][growingUpCol] == actualColor) points++;
+                else
+                {
+                    points = 0;
+                    break;
+                }
+                //grow up the column and back up the col
+                growingUpCol++;
+                row--;
+            }
+            if(points > 1)
+            {
+                if(actualColor == State.Blue) bluePoints += points;
+                else redPoints += points;
+            }
         }
 
         returnPointsArray[0] = bluePoints;
@@ -277,37 +317,73 @@ public class Board
     }
 
     /**
-     * Counts a points of finished game in diagonal from top to left
+     * Counts a points of finished game in diagonal from right
      * @return      Points of both players as array [Blue, Red]
      */
-    private int[] countDiagonalFromTopLeft()
+    private int[] countDiagonalsFromRight()
     {
         int[] returnPointsArray = new int[2];
         int bluePoints = 0;
         int redPoints = 0;
 
-        State actualColor = State.Blank;
-        int points = 0;
-        int col = BOARD_WIDTH - 1;
+        //count from left
         for(int row = 0; row < BOARD_WIDTH; row++)
         {
-            if(board[row][col] == actualColor) points++;
-            else
+            //set a actual color as the first color in this row
+            State actualColor = board[row][0];
+            int points = 0;
+
+            int growingUpRow = row;
+            int col = 0;
+
+            while(growingUpRow < BOARD_WIDTH)
             {
-                if(points > 1)
+                //count points if the color doesn't change
+                if(board[growingUpRow][col] == actualColor) points++;
+                else
                 {
-                    if(actualColor == State.Blue) bluePoints += points;
-                    else redPoints += points;
+                    points = 0;
+                    break;
                 }
-                points = 1;
-                actualColor = board[row][col];
+                //grow up the row and column
+                growingUpRow++;
+                col++;
             }
-            col--;
+            if(points > 1)
+            {
+                if(actualColor == State.Blue) bluePoints += points;
+                else redPoints += points;
+            }
         }
-        if(points > 1)
+
+        //count from top
+        for(int col = 1; col < BOARD_WIDTH; col++)
         {
-            if(actualColor == State.Blue) bluePoints += points;
-            else redPoints += points;
+            //set a actual color as the first color in this column
+            State actualColor = board[0][col];
+            int points = 0;
+
+            int growingUpCol = col;
+            int row = 0;
+
+            while(growingUpCol < BOARD_WIDTH)
+            {
+                //count points if the color doesn't change
+                if(board[row][growingUpCol] == actualColor) points++;
+                else
+                {
+                    points = 0;
+                    break;
+                }
+                //grow up the column and row
+                growingUpCol++;
+                row++;
+            }
+            if(points > 1)
+            {
+                if(actualColor == State.Blue) bluePoints += points;
+                else redPoints += points;
+            }
         }
 
         returnPointsArray[0] = bluePoints;
@@ -367,17 +443,16 @@ public class Board
      */
     public Board getDeepCopy()
     {
-        Board board             = new Board();
+        Board board = new Board();
 
-        for (int i = 0; i < board.board.length; i++)
-            board.board[i] = this.board[i].clone();
+        for (int i = 0; i < board.board.length; i++) board.board[i] = this.board[i].clone();
 
-        board.playersTurn       = this.playersTurn;
-        board.winner            = this.winner;
-        board.availableMoves   = new HashSet<>();
-        board.availableMoves .addAll(this.availableMoves);
-        board.moveCount         = this.moveCount;
-        board.gameOver          = this.gameOver;
+        board.playersTurn = this.playersTurn;
+        board.winner = this.winner;
+        board.availableMoves = new HashSet<>();
+        board.availableMoves.addAll(this.availableMoves);
+        board.moveCount = this.moveCount;
+        board.gameOver = this.gameOver;
         return board;
     }
 
