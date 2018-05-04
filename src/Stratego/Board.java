@@ -155,8 +155,8 @@ public class Board
         bluePoints += diagFromRightPoints[0];
         redPoints += diagFromRightPoints[1];
 
-        System.out.println("BluePoints = " + bluePoints);
-        System.out.println("RedPoints = " + redPoints);
+//        System.out.println("BluePoints = " + bluePoints);
+//        System.out.println("RedPoints = " + redPoints);
 
         //set the winner
         if(bluePoints == redPoints) winner = State.Blank;
