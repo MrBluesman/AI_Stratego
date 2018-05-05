@@ -5,29 +5,49 @@ import Stratego.Board;
 /**
  * For use a various algorithm to play Stratego game (enemies).
  */
-public class Algorithms
-{
+public class Algorithms {
     /**
      * Algorithms cannot be instantiated.
      */
-    private Algorithms() {}
+    private Algorithms() {
+    }
 
     /**
-     * Play a random move;
-     * @param _board
+     * Play using a random moving;
+     *
+     * @param _board    the Stratego board to play on
      */
-    public static void random(Board _board)
-    {
+    public static void random(Board _board) {
         Random.run(_board);
     }
 
     /**
-     * Play a move using the MiniMax Algorithm.
-     * @param _board
+     * Play using the MiniMax Algorithm.
+     *
+     * @param _board    the Stratego board to play on
      */
-    public static void miniMax(Board _board)
-    {
+    public static void miniMax(Board _board) {
         MiniMax.run(_board.getTurn(), _board);
     }
 
+    /**
+     * Play using the AlphaBeta Pruning algorithm.
+     *
+     * @param _board    the Stratego board to play on
+     */
+    public static void alphaBetaPruning(Board _board)
+    {
+        AlphaBetaPruning.run(_board.getTurn(), _board, Double.POSITIVE_INFINITY);
+    }
+
+    /**
+     * Play using the AlphaBeta Pruning algorithm.
+     * Includes depth limit.
+     * @param _board    the Stratego board to play on
+     * @param _ply      the maximum depth
+     */
+    public static void alphaBetaPruning(Board _board, int _ply)
+    {
+        AlphaBetaPruning.run(_board.getTurn(), _board, _ply);
+    }
 }

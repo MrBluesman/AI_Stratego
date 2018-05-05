@@ -22,8 +22,7 @@ public class AlphaBetaPruning {
      */
     static void run(Board.State _player, Board _board, double _maxPly)
     {
-        if(maxPly < 1)
-            throw new IllegalArgumentException("Maximum depth must be greater than 0.");
+        if(_maxPly < 1) throw new IllegalArgumentException("Maximum depth must be greater than 0.");
 
         AlphaBetaPruning.maxPly = _maxPly;
         alphaBetaPruning(_player, _board, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);

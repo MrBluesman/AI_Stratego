@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class Board
 {
     //Width of board. BOARD_WIDTH * BOARD_WIDTH fields.
-    static final int BOARD_WIDTH = 3;
+    static final int BOARD_WIDTH = 4;
 
     //Represents the State of the fields on the Board.
     public enum State
