@@ -2,16 +2,13 @@ package AI;
 
 import Stratego.Board;
 
-/**
- * Uses the AlphaBeta Pruning algorithm to play a move in Stratego game.
- */
-public class AlphaBetaPruning
+public class AlphaBetaPruningStartedLines
 {
     private static double maxPly;
     /**
      * AlphaBetaPruning cannot be instantiated.
      */
-    private AlphaBetaPruning() { }
+    private AlphaBetaPruningStartedLines() { }
 
     /**
      * Execute the algorithm.
@@ -23,7 +20,7 @@ public class AlphaBetaPruning
     {
         if(_maxPly < 1) throw new IllegalArgumentException("Maximum depth must be greater than 0.");
 
-        AlphaBetaPruning.maxPly = _maxPly;
+        AlphaBetaPruningStartedLines.maxPly = _maxPly;
         alphaBetaPruning(_player, _board, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
     }
 
@@ -116,7 +113,7 @@ public class AlphaBetaPruning
     }
 
     /**
-     * Evaluation function 1.
+     * Evaluation function 2.
      * Get the score of the board. 0 if the game is not over.
      * @param _player    the player that the AI will identify as
      * @param _board     the Stratego board to play on
@@ -131,7 +128,7 @@ public class AlphaBetaPruning
         //set opponent
 //        Board.State opponent = (_player == Board.State.Blue) ? Board.State.Blue : Board.State.Red;
 
-        int gameScore = _board.countPoints();
+        int gameScore = _board.countPointsIncludesStartedLines();
 
         //set the points
         if(_player == Board.State.Blue) return gameScore;
