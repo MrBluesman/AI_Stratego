@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class Board
 {
     //Width of board. BOARD_WIDTH * BOARD_WIDTH fields.
-    static final int BOARD_WIDTH = 7;
+    static final int BOARD_WIDTH = 4;
 
     //Colors for console gui
     public static final String ANSI_RESET = "\u001B[0m";
