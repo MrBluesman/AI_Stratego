@@ -126,8 +126,13 @@ public class Board
         return move(_index / BOARD_WIDTH, _index % BOARD_WIDTH);
     }
 
+    //---------------------------------------------------------------------------------------------------------------
+    // GAME OVER POINTS + 1st EVALUATION FUNCTION -------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------
+
     /**
      * Counts a point of finished game and select the winner
+     * It's also a evaluation function for unfinished game.
      * @return      difference between players points
      */
     public int countPoints()
@@ -145,18 +150,15 @@ public class Board
         bluePoints += colPoints[0];
         redPoints += colPoints[1];
 
-//        //check countDiagonalsFromLeft
+        //check countDiagonalsFromLeft
         int[] diagFromLeftPoints = countDiagonalsFromLeft();
         bluePoints += diagFromLeftPoints[0];
         redPoints += diagFromLeftPoints[1];
-//
-//        //check diagonalFromTopRight
+
+        //check diagonalsFromRight
         int[] diagFromRightPoints = countDiagonalsFromRight();
         bluePoints += diagFromRightPoints[0];
         redPoints += diagFromRightPoints[1];
-
-//        System.out.println("BluePoints = " + bluePoints);
-//        System.out.println("RedPoints = " + redPoints);
 
         //set the winner
         if(bluePoints == redPoints) winner = State.Blank;
@@ -392,6 +394,288 @@ public class Board
         return returnPointsArray;
     }
 
+    //---------------------------------------------------------------------------------------------------------------
+    // 2nd EVALUATION FUNCTION --------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Evaluation function for rank a unfinished game.
+     * @return      difference between players points. Rank of state of game on the board.
+     */
+    public int countPointsIncludesStartedLines()
+    {
+        int bluePoints = 0;
+        int redPoints = 0;
+
+        //check rows
+        int[] rowPoints = countRowsIncludesStartedLines();
+        bluePoints += rowPoints[0];
+        redPoints += rowPoints[1];
+
+        //check columns
+        int[] colPoints = countColumnsIncludesStartedLines();
+        bluePoints += colPoints[0];
+        redPoints += colPoints[1];
+
+        //check countDiagonalsFromLeft
+        int[] diagFromLeftPoints = countDiagonalsFromLeftIncludesStartedLines();
+        bluePoints += diagFromLeftPoints[0];
+        redPoints += diagFromLeftPoints[1];
+
+        //check diagonalsFromRight
+        int[] diagFromRightPoints = countDiagonalsFromRightIncludesStartedLines();
+        bluePoints += diagFromRightPoints[0];
+        redPoints += diagFromRightPoints[1];
+
+        //set the winner
+        if(bluePoints == redPoints) winner = State.Blank;
+        else winner = bluePoints > redPoints ? State.Blue : State.Red;
+        //return winners points
+//        return bluePoints > redPoints ? bluePoints : redPoints;
+        return bluePoints - redPoints;
+    }
+
+    /**
+     * Counts a points of unfinished game in rows.
+     * @return      points of both players in rows as array [Blue, Red]
+     */
+    private int[] countRowsIncludesStartedLines()
+    {
+        int[] returnPointsArray = new int[2];
+        int bluePoints = 0;
+        int redPoints = 0;
+
+        for(int row = 0; row < BOARD_WIDTH; row++)
+        {
+            //set a actual color as the first color in this row
+            State actualColor = board[row][0];
+            int points = 0;
+
+            for(int col = 0; col < BOARD_WIDTH; col++)
+            {
+                //if actual color is still blank, set a color from new position
+                if(actualColor == State.Blank) actualColor = board[row][col];
+
+                //count points if the color doesn't change
+                if(board[row][col] == actualColor && actualColor != State.Blank) points++;
+                else if(board[row][col] != State.Blank)
+                {
+                    points = 0;
+                    break;
+                }
+            }
+
+            //assign the points to players started line
+            if(actualColor == State.Blue) bluePoints += points;
+            else redPoints += points;
+
+        }
+
+        returnPointsArray[0] = bluePoints;
+        returnPointsArray[1] = redPoints;
+        return returnPointsArray;
+    }
+
+    /**
+     * Counts a points of unfinished game in columns.
+     * @return      points of both players in columns as array [Blue, Red]
+     */
+    private int[] countColumnsIncludesStartedLines()
+    {
+        int[] returnPointsArray = new int[2];
+        int bluePoints = 0;
+        int redPoints = 0;
+
+        for(int col = 0; col < BOARD_WIDTH; col++)
+        {
+            //set a actual color as the first color in this column
+            State actualColor = board[0][col];
+            int points = 0;
+
+            for(int row = 0; row < BOARD_WIDTH; row++)
+            {
+                //if actual color is still blank, set a color from new position
+                if(actualColor == State.Blank) actualColor = board[row][col];
+
+                //count points if the color doesn't change
+                if(board[row][col] == actualColor && actualColor != State.Blank) points++;
+                else if(board[row][col] != State.Blank)
+                {
+                    points = 0;
+                    break;
+                }
+            }
+
+            //assign the points to players started line
+            if(actualColor == State.Blue) bluePoints += points;
+            else redPoints += points;
+        }
+
+        returnPointsArray[0] = bluePoints;
+        returnPointsArray[1] = redPoints;
+        return returnPointsArray;
+    }
+
+    /**
+     * Counts a points of unfinished game in diagonals from left.
+     * @return      Points of both players as array [Blue, Red]
+     */
+    private int[] countDiagonalsFromLeftIncludesStartedLines()
+    {
+        int[] returnPointsArray = new int[2];
+        int bluePoints = 0;
+        int redPoints = 0;
+
+        //count from left
+        for(int row = 0; row < BOARD_WIDTH; row++)
+        {
+            //set a actual color as the first color in this row
+            State actualColor = board[row][0];
+            int points = 0;
+
+            int backingUpRow = row;
+            int col = 0;
+
+            while(backingUpRow >= 0)
+            {
+                //if actual color is still blank, set a color from new position
+                if(actualColor == State.Blank) actualColor = board[backingUpRow][col];
+
+                //count points if the color doesn't change
+                if(board[backingUpRow][col] == actualColor && actualColor != State.Blank) points++;
+                else if(board[backingUpRow][col] != State.Blank)
+                {
+                    points = 0;
+                    break;
+                }
+
+                //back up the row and move forward the col
+                backingUpRow--;
+                col++;
+            }
+
+            //assign the points to players started line
+            if(actualColor == State.Blue) bluePoints += points;
+            else redPoints += points;
+        }
+
+        //count from bottom
+        for(int col = 1; col < BOARD_WIDTH; col++)
+        {
+            //set a actual color as the first color in this column
+            State actualColor = board[BOARD_WIDTH - 1][col];
+            int points = 0;
+
+            int growingUpCol = col;
+            int row = BOARD_WIDTH - 1;
+
+            while(growingUpCol < BOARD_WIDTH)
+            {
+                //if actual color is still blank, set a color from new position
+                if(actualColor == State.Blank) actualColor = board[row][growingUpCol];
+
+                //count points if the color doesn't change
+                if(board[row][growingUpCol] == actualColor && actualColor != State.Blank) points++;
+                else if(board[row][growingUpCol] != State.Blank)
+                {
+                    points = 0;
+                    break;
+                }
+                //grow up the column and back up the col
+                growingUpCol++;
+                row--;
+            }
+
+            //assign the points to players started line
+            if(actualColor == State.Blue) bluePoints += points;
+            else redPoints += points;
+        }
+
+        returnPointsArray[0] = bluePoints;
+        returnPointsArray[1] = redPoints;
+        return returnPointsArray;
+    }
+
+    /**
+     * Counts a points of unfinished game in diagonals from right.
+     * @return      Points of both players as array [Blue, Red]
+     */
+    private int[] countDiagonalsFromRightIncludesStartedLines()
+    {
+        int[] returnPointsArray = new int[2];
+        int bluePoints = 0;
+        int redPoints = 0;
+
+        //count from left
+        for(int row = 0; row < BOARD_WIDTH; row++)
+        {
+            //set a actual color as the first color in this row
+            State actualColor = board[row][0];
+            int points = 0;
+
+            int growingUpRow = row;
+            int col = 0;
+
+            while(growingUpRow < BOARD_WIDTH)
+            {
+                //if actual color is still blank, set a color from new position
+                if(actualColor == State.Blank) actualColor = board[growingUpRow][col];
+
+                //count points if the color doesn't change
+                if(board[growingUpRow][col] == actualColor && actualColor != State.Blank) points++;
+                else if(board[growingUpRow][col] != State.Blank)
+                {
+                    points = 0;
+                    break;
+                }
+                //grow up the row and column
+                growingUpRow++;
+                col++;
+            }
+
+            //assign the points to players started line
+            if(actualColor == State.Blue) bluePoints += points;
+            else redPoints += points;
+
+        }
+
+        //count from top
+        for(int col = 1; col < BOARD_WIDTH; col++)
+        {
+            //set a actual color as the first color in this column
+            State actualColor = board[0][col];
+            int points = 0;
+
+            int growingUpCol = col;
+            int row = 0;
+
+            while(growingUpCol < BOARD_WIDTH)
+            {
+                //if actual color is still blank, set a color from new position
+                if(actualColor == State.Blank) actualColor = board[row][growingUpCol];
+
+                //count points if the color doesn't change
+                if(board[row][growingUpCol] == actualColor && actualColor != State.Blank) points++;
+                else if(board[row][growingUpCol] != State.Blank)
+                {
+                    points = 0;
+                    break;
+                }
+                //grow up the column and row
+                growingUpCol++;
+                row++;
+            }
+
+            //assign the points to players started line
+            if(actualColor == State.Blue) bluePoints += points;
+            else redPoints += points;
+        }
+
+        returnPointsArray[0] = bluePoints;
+        returnPointsArray[1] = redPoints;
+        return returnPointsArray;
+    }
+
     /**
      * Checks if the game is over (if there is a winner or there is a draw)
      * @return      true if game is over
@@ -427,6 +711,15 @@ public class Board
     {
         if (!gameOver) throw new IllegalStateException("Stratego game is not over yet.");
         return winner;
+    }
+
+    /**
+     * Get the board width.
+     * @return      the board width
+     */
+    public int getBoardWidth()
+    {
+        return BOARD_WIDTH;
     }
 
     /**
@@ -467,18 +760,25 @@ public class Board
     {
         StringBuilder sb = new StringBuilder();
 
-        for (int y = 0; y < BOARD_WIDTH; y++) {
-            for (int x = 0; x < BOARD_WIDTH; x++) {
+        for (int y = 0; y < BOARD_WIDTH; y++)
+        {
+            for (int x = 0; x < BOARD_WIDTH; x++)
+            {
 
                 if (board[y][x] == State.Blank) {
                     sb.append("-");
-                } else {
-                    sb.append(board[y][x].name());
+                }
+                else
+                {
+//                    sb.append(board[y][x].name());
+                    if(board[y][x] == State.Blue) sb.append("B");
+                    else sb.append("O");
                 }
                 sb.append(" ");
 
             }
-            if (y != BOARD_WIDTH -1) {
+            if (y != BOARD_WIDTH -1)
+            {
                 sb.append("\n");
             }
         }

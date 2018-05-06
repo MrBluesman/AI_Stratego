@@ -5,14 +5,13 @@ import Stratego.Board;
 /**
  * Uses the AlphaBeta Pruning algorithm to play a move in Stratego game.
  */
-public class AlphaBetaPruning {
+public class AlphaBetaPruning
+{
     private static double maxPly;
-
     /**
      * AlphaBetaPruning cannot be instantiated.
      */
-    private AlphaBetaPruning() {
-    }
+    private AlphaBetaPruning() { }
 
     /**
      * Execute the algorithm.
