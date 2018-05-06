@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class Board
 {
     //Width of board. BOARD_WIDTH * BOARD_WIDTH fields.
-    static final int BOARD_WIDTH = 4;
+    static final int BOARD_WIDTH = 7;
 
     //Colors for console gui
     public static final String ANSI_RESET = "\u001B[0m";
@@ -237,7 +237,7 @@ public class Board
             if(points > 1)
             {
                 if(actualColor == State.Blue) bluePoints += points;
-                else redPoints += points;
+                else if (actualColor == State.Red) redPoints += points;
             }
         }
 
@@ -275,7 +275,7 @@ public class Board
             if(points > 1)
             {
                 if(actualColor == State.Blue) bluePoints += points;
-                else redPoints += points;
+                else if (actualColor == State.Red) redPoints += points;
             }
         }
 
@@ -320,7 +320,7 @@ public class Board
             if(points > 1)
             {
                 if(actualColor == State.Blue) bluePoints += points;
-                else redPoints += points;
+                else if (actualColor == State.Red) redPoints += points;
             }
         }
 
@@ -350,7 +350,7 @@ public class Board
             if(points > 1)
             {
                 if(actualColor == State.Blue) bluePoints += points;
-                else redPoints += points;
+                else if (actualColor == State.Red) redPoints += points;
             }
         }
 
@@ -395,7 +395,7 @@ public class Board
             if(points > 1)
             {
                 if(actualColor == State.Blue) bluePoints += points;
-                else redPoints += points;
+                else if (actualColor == State.Red) redPoints += points;
             }
         }
 
@@ -425,7 +425,7 @@ public class Board
             if(points > 1)
             {
                 if(actualColor == State.Blue) bluePoints += points;
-                else redPoints += points;
+                else if (actualColor == State.Red) redPoints += points;
             }
         }
 
@@ -507,7 +507,7 @@ public class Board
 
             //assign the points to players started line
             if(actualColor == State.Blue) bluePoints += points;
-            else redPoints += points;
+            else if (actualColor == State.Red) redPoints += points;
 
         }
 
@@ -548,7 +548,7 @@ public class Board
 
             //assign the points to players started line
             if(actualColor == State.Blue) bluePoints += points;
-            else redPoints += points;
+            else if (actualColor == State.Red) redPoints += points;
         }
 
         returnPointsArray[0] = bluePoints;
@@ -596,7 +596,7 @@ public class Board
 
             //assign the points to players started line
             if(actualColor == State.Blue) bluePoints += points;
-            else redPoints += points;
+            else if (actualColor == State.Red) redPoints += points;
         }
 
         //count from bottom
@@ -628,7 +628,7 @@ public class Board
 
             //assign the points to players started line
             if(actualColor == State.Blue) bluePoints += points;
-            else redPoints += points;
+            else if (actualColor == State.Red) redPoints += points;
         }
 
         returnPointsArray[0] = bluePoints;
@@ -675,7 +675,7 @@ public class Board
 
             //assign the points to players started line
             if(actualColor == State.Blue) bluePoints += points;
-            else redPoints += points;
+            else if (actualColor == State.Red) redPoints += points;
 
         }
 
@@ -708,7 +708,7 @@ public class Board
 
             //assign the points to players started line
             if(actualColor == State.Blue) bluePoints += points;
-            else redPoints += points;
+            else if (actualColor == State.Red) redPoints += points;
         }
 
         returnPointsArray[0] = bluePoints;
