@@ -10,6 +10,11 @@ public class Board
     //Width of board. BOARD_WIDTH * BOARD_WIDTH fields.
     static final int BOARD_WIDTH = 4;
 
+    //Colors for console gui
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+
     //Represents the State of the fields on the Board.
     public enum State
     {
@@ -166,6 +171,41 @@ public class Board
         //return winners points
 //        return bluePoints > redPoints ? bluePoints : redPoints;
         return bluePoints - redPoints;
+    }
+
+    /**
+     * Counts a point of finished game and select the winner.
+     * @return      points of both players as array [Blue, Red]
+     */
+    public int[] countPointsArray()
+    {
+        int[] returnPointsArray = new int[2];
+        int bluePoints = 0;
+        int redPoints = 0;
+
+        //check rows
+        int[] rowPoints = countRows();
+        bluePoints += rowPoints[0];
+        redPoints += rowPoints[1];
+
+        //check columns
+        int[] colPoints = countColumns();
+        bluePoints += colPoints[0];
+        redPoints += colPoints[1];
+
+        //check countDiagonalsFromLeft
+        int[] diagFromLeftPoints = countDiagonalsFromLeft();
+        bluePoints += diagFromLeftPoints[0];
+        redPoints += diagFromLeftPoints[1];
+
+        //check diagonalsFromRight
+        int[] diagFromRightPoints = countDiagonalsFromRight();
+        bluePoints += diagFromRightPoints[0];
+        redPoints += diagFromRightPoints[1];
+
+        returnPointsArray[0] = bluePoints;
+        returnPointsArray[1] = redPoints;
+        return returnPointsArray;
     }
 
     /**
@@ -753,8 +793,6 @@ public class Board
     //----------
     // PRINTERS |--------------------------------------------------
     //----------
-
-    //Copied - toChange
     @Override
     public String toString ()
     {
@@ -771,8 +809,8 @@ public class Board
                 else
                 {
 //                    sb.append(board[y][x].name());
-                    if(board[y][x] == State.Blue) sb.append("B");
-                    else sb.append("O");
+                    if(board[y][x] == State.Blue) sb.append(ANSI_BLUE + "B" + ANSI_RESET);
+                    else sb.append(ANSI_RED + "R" + ANSI_RESET);
                 }
                 sb.append(" ");
 
