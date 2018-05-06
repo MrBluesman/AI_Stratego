@@ -142,7 +142,7 @@ public class AlphaBetaPruningSortingMoves
 
         for (Map.Entry<Integer, Integer> entry : sortedList)
             sortedMoves.add(entry.getKey());
-        
+
         return sortedMoves;
     }
 

@@ -50,8 +50,27 @@ public class Algorithms {
         AlphaBetaPruning.run(_board.getTurn(), _board, _ply);
     }
 
+    /**
+     * Play using the AlphaBeta Pruning algorithm.
+     * Includes depth limit and evaluation function based on started lines.
+     *
+     * @param _board the Stratego board to play on
+     * @param _ply   the maximum depth
+     */
     public static void alphaBetaPruningStartedLines(Board _board, int _ply)
     {
         AlphaBetaPruningStartedLines.run(_board.getTurn(), _board, _ply);
+    }
+
+    /**
+     * Play using the AlphaBeta Pruning algorithm.
+     * Includes depth limit and sorting moves based on evaluation function.
+     *
+     * @param _board the Stratego board to play on
+     * @param _ply   the maximum depth
+     */
+    public static void alphaBetaPruningSortingMoves(Board _board, int _ply)
+    {
+        AlphaBetaPruningSortingMoves.run(_board.getTurn(), _board, _ply);
     }
 }
