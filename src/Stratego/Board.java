@@ -527,7 +527,7 @@ public class Board
         int redPoints = 0;
 
         //count from left
-        for(int row = 0; row < BOARD_WIDTH; row++)
+        for(int row = 1; row < BOARD_WIDTH; row++)
         {
             //set a actual color as the first color in this row
             State actualColor = board[row][0];
@@ -560,7 +560,7 @@ public class Board
         }
 
         //count from bottom
-        for(int col = 1; col < BOARD_WIDTH; col++)
+        for(int col = 1; col < BOARD_WIDTH - 1; col++)
         {
             //set a actual color as the first color in this column
             State actualColor = board[BOARD_WIDTH - 1][col];
@@ -607,7 +607,7 @@ public class Board
         int redPoints = 0;
 
         //count from left
-        for(int row = 0; row < BOARD_WIDTH; row++)
+        for(int row = 0; row < BOARD_WIDTH - 1; row++)
         {
             //set a actual color as the first color in this row
             State actualColor = board[row][0];
@@ -640,7 +640,7 @@ public class Board
         }
 
         //count from top
-        for(int col = 1; col < BOARD_WIDTH; col++)
+        for(int col = 1; col < BOARD_WIDTH - 1; col++)
         {
             //set a actual color as the first color in this column
             State actualColor = board[0][col];
