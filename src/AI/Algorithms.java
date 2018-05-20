@@ -73,4 +73,15 @@ public class Algorithms {
     {
         AlphaBetaPruningSortingMoves.run(_board.getTurn(), _board, _ply);
     }
+
+    /**
+     * Play using the AlphaBeta Pruning algorithm.
+     * Includes depth limit and make a move based on the best first search.
+     * @param _board
+     * @param _ply
+     */
+    public static void alphaBetaPruningBestFirst(Board _board, int _ply)
+    {
+        AlphaBetaPruningBestFirst.run(_board.getTurn(), _board, _ply);
+    }
 }

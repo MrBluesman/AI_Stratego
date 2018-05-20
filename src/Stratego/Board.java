@@ -802,23 +802,31 @@ public class Board
         {
             for (int x = 0; x < BOARD_WIDTH; x++)
             {
+                int pos = y*BOARD_WIDTH + x;
 
-                if (board[y][x] == State.Blank) {
-                    sb.append("-");
+                if (board[y][x] == State.Blank)
+                {
+                    if(pos < 10) sb.append(" " + pos);
+                    else sb.append(pos);
                 }
                 else
                 {
 //                    sb.append(board[y][x].name());
-                    if(board[y][x] == State.Blue) sb.append(ANSI_BLUE + "B" + ANSI_RESET);
-                    else sb.append(ANSI_RED + "R" + ANSI_RESET);
+                    if(board[y][x] == State.Blue)
+                    {
+                        if(pos < 10) sb.append(ANSI_BLUE + " B" + ANSI_RESET);
+                        else sb.append(ANSI_BLUE + "B" + ANSI_RESET);
+                    }
+                    else
+                    {
+                        if(pos < 10) sb.append(ANSI_RED + " R" + ANSI_RESET);
+                        else sb.append(ANSI_RED + "R" + ANSI_RESET);
+                    }
                 }
                 sb.append(" ");
 
             }
-            if (y != BOARD_WIDTH -1)
-            {
-                sb.append("\n");
-            }
+            if (y != BOARD_WIDTH -1) sb.append("\n");
         }
 
         return new String(sb);
