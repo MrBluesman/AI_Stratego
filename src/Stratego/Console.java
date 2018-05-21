@@ -10,6 +10,10 @@ public class Console
 {
     private Board board;
     private Scanner sc;
+    private int playerBlueTime;
+    private int playerRedTime;
+    private long startMeasureTime;
+    private long stopMeasureTime;
 
     /**
      * Console game constructor.
@@ -19,6 +23,10 @@ public class Console
     {
         this.sc = new Scanner(System.in);
         this.board = new Board();
+        playerBlueTime = 0;
+        playerRedTime = 0;
+        startMeasureTime = 0;
+        stopMeasureTime = 0;
     }
 
     /**
@@ -48,20 +56,30 @@ public class Console
     {
         if (this.board.getTurn() == State.Blue)
         {
+            startMeasureTime = System.nanoTime();
+
             this.getPlayerMove();
 //            Algorithms.alphaBetaPruning(this.board, 5);
 //            Algorithms.alphaBetaPruningStartedLines(this.board, 5);
 //            Algorithms.alphaBetaPruningSortingMoves(this.board, 5);
-//            Algorithms.alphaBetaPruningBestFirst(this.board, 5);
+//            Algorithms.alphaBetaPruningBestFirst(this.board, 5);]
+
+            stopMeasureTime = System.nanoTime();
+            playerBlueTime += (stopMeasureTime - startMeasureTime)/1000000;
         }
         else
         {
+            startMeasureTime = System.nanoTime();
+
 //            Algorithms.random(this.board);
             Algorithms.miniMax(this.board, 3);
 //            Algorithms.alphaBetaPruning(this.board, 5);
 //            Algorithms.alphaBetaPruningStartedLines(this.board, 5);
 //            Algorithms.alphaBetaPruningSortingMoves(this.board, 5);
 //            Algorithms.alphaBetaPruningBestFirst(this.board, 50);
+
+            stopMeasureTime = System.nanoTime();
+            playerRedTime += (stopMeasureTime - startMeasureTime)/1000000;
         }
     }
 
@@ -113,8 +131,8 @@ public class Console
         System.out.println("\n" + this.board + "\n");
 
         int[] gamePoints = this.board.countPointsArray();
-        System.out.println(Board.ANSI_BLUE + gamePoints[0] + Board.ANSI_RESET + " - Blue's points");
-        System.out.println(Board.ANSI_RED + gamePoints[1] + Board.ANSI_RESET + " - Red's points\n");
+        System.out.println(Board.ANSI_BLUE + gamePoints[0] + Board.ANSI_RESET + " - Blue's points, turn's time: " + playerBlueTime);
+        System.out.println(Board.ANSI_RED + gamePoints[1] + Board.ANSI_RESET + " - Red's points, turn's time: " + playerRedTime + "\n");
 
         if (winner == State.Blank) System.out.println("The Stratego is a Draw.");
         else System.out.println("Player " + winner.toString() + " wins!");
