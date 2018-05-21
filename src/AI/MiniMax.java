@@ -18,11 +18,13 @@ public class MiniMax
      * Execute the MiniMax algorithm.
      * @param _player       the player that the Ai will identify as
      * @param _board        the Stratego board to play on
+     * @param _maxPly       the maximum depth
      */
-    static void run(Board.State _player, Board _board)
+    static void run(Board.State _player, Board _board, double _maxPly)
     {
+        if(_maxPly < 1) throw new IllegalArgumentException("Maximum depth must be greater than 0.");
 
-        MiniMax.maxPly = Double.POSITIVE_INFINITY;
+        MiniMax.maxPly = _maxPly;
         miniMax(_player, _board, 0);
     }
 

@@ -57,10 +57,10 @@ public class Console
         else
         {
 //            Algorithms.random(this.board);
-//            Algorithms.miniMax(this.board);
+            Algorithms.miniMax(this.board, 3);
 //            Algorithms.alphaBetaPruning(this.board, 5);
 //            Algorithms.alphaBetaPruningStartedLines(this.board, 5);
-            Algorithms.alphaBetaPruningSortingMoves(this.board, 5);
+//            Algorithms.alphaBetaPruningSortingMoves(this.board, 5);
 //            Algorithms.alphaBetaPruningBestFirst(this.board, 50);
         }
     }

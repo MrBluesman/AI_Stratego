@@ -9,15 +9,15 @@ public class Algorithms {
     /**
      * Algorithms cannot be instantiated.
      */
-    private Algorithms() {
-    }
+    private Algorithms() {}
 
     /**
      * Play using a random moving;
      *
      * @param _board the Stratego board to play on
      */
-    public static void random(Board _board) {
+    public static void random(Board _board)
+    {
         Random.run(_board);
     }
 
@@ -26,8 +26,20 @@ public class Algorithms {
      *
      * @param _board the Stratego board to play on
      */
-    public static void miniMax(Board _board) {
-        MiniMax.run(_board.getTurn(), _board);
+    public static void miniMax(Board _board)
+    {
+        MiniMax.run(_board.getTurn(), _board, Double.POSITIVE_INFINITY);
+    }
+
+    /**
+     * Play using the MiniMax Algorithm.
+     *
+     * @param _board the Stratego board to play on
+     * @param _ply   the maximum depth
+     */
+    public static void miniMax(Board _board, int _ply)
+    {
+        MiniMax.run(_board.getTurn(), _board, _ply);
     }
 
     /**
@@ -35,7 +47,8 @@ public class Algorithms {
      *
      * @param _board the Stratego board to play on
      */
-    public static void alphaBetaPruning(Board _board) {
+    public static void alphaBetaPruning(Board _board)
+    {
         AlphaBetaPruning.run(_board.getTurn(), _board, Double.POSITIVE_INFINITY);
     }
 
@@ -46,7 +59,8 @@ public class Algorithms {
      * @param _board the Stratego board to play on
      * @param _ply   the maximum depth
      */
-    public static void alphaBetaPruning(Board _board, int _ply) {
+    public static void alphaBetaPruning(Board _board, int _ply)
+    {
         AlphaBetaPruning.run(_board.getTurn(), _board, _ply);
     }
 

@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class Board
 {
     //Width of board. BOARD_WIDTH * BOARD_WIDTH fields.
-    static final int BOARD_WIDTH = 4;
+    static final int BOARD_WIDTH = 7;
 
     //Colors for console gui
     public static final String ANSI_RESET = "\u001B[0m";
@@ -814,13 +814,15 @@ public class Board
 //                    sb.append(board[y][x].name());
                     if(board[y][x] == State.Blue)
                     {
-                        if(pos < 10) sb.append(ANSI_BLUE + " B" + ANSI_RESET);
-                        else sb.append(ANSI_BLUE + "B" + ANSI_RESET);
+//                        if(pos < 10) sb.append(ANSI_BLUE + " B" + ANSI_RESET);
+//                        else
+                            sb.append(ANSI_BLUE + " B" + ANSI_RESET);
                     }
                     else
                     {
-                        if(pos < 10) sb.append(ANSI_RED + " R" + ANSI_RESET);
-                        else sb.append(ANSI_RED + "R" + ANSI_RESET);
+//                        if(pos < 10) sb.append(ANSI_RED + " R" + ANSI_RESET);
+//                        else
+                            sb.append(ANSI_RED + " R" + ANSI_RESET);
                     }
                 }
                 sb.append(" ");
